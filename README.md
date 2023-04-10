@@ -5,6 +5,8 @@
 
 This is a mobile responsive Watch2Gether Clone built with Node.js (Express.js) and Socket.io. The clone allows users to watch YouTube videos together, synchronized. Features include a real-time chat, a invitation system, kicking, banning, a playlist as well as roles. Please note that this is one of my older projects, the code might not be using  best practices, we all started somewhere :) Some features still have to be implemented or have to be made better, see below.
 
+<a href="https://watch2gether-clone.onrender.com">View Demo</a>
+
 ## Features
 - [x] **Realtime Sockets**: Users can enjoy real-time video synchronization and chatting using [Socket.io](https://socket.io)
 - [x] **Beatiful Video Player**: using [Plyr.io](https://plyr.io)
