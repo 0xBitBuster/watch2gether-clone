@@ -21,6 +21,7 @@ This is a mobile responsive Watch2Gether Clone built with Node.js (Express.js) a
 - Rate limiting everything (preferably using Redis)
 - Use Tailwind.css (Bootstrap is a big and uncompressed library)
 - Use CSP and CORS (using Helmet)
+- Use a frontend framework (React.js / Next.js) for better file seperation
 - Optional, authorization
 
 ## Getting Started
