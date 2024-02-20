@@ -48,7 +48,6 @@ if (!supported.api) {
     sendErrorAndRedirect("Your browser does not support our video player. Please update your browser!");
 }
 
-const userFromEurope = Intl.DateTimeFormat().resolvedOptions().timeZone.split('/')[0] == "Europe"
 const player = new Plyr('#player', {
     controls: [
         'play-large',
@@ -73,9 +72,6 @@ const player = new Plyr('#player', {
     },
     storage: {
         enabled: false
-    }, 
-    youtube: {
-        noCookie: userFromEurope
     }
 });
 
