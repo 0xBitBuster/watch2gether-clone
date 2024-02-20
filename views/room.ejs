@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="Watch2Gether Clone using Node.js, Express, Socket.io - Watch Youtube Videos Synchronized."> 
+    <meta name="author" content="Github: 0xBitBuster (saibot-tsch)"/>
+    <meta name="keywords" content="Watch2Gether, Clone, Express, Node.js, Socket.io, Youtube, Video, Sync">
+    <link rel="icon" type="image/png" href="/assets/icon.png">
+    <title>Watch2Gether Clone</title>  
+    
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap">  
+    <!-- Plyr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.7/plyr.min.css" integrity="sha512-ig9FCe92nesnwlWGl9mrk85kB35I29wg6kfP17X0qX2B6GAxS4tKK8QhcTgojdsjOEZRlmaawo49uerBGt6O+Q==" crossorigin="anonymous" />
+    <!-- Bootstap 5 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <!-- Bootstrap 5 Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/room.css" />
+
+    <!-- Plyr JS -->
+    <script defer src="https://cdn.plyr.io/3.6.8/plyr.js"></script>
+    <!-- Bootstap 5 JS -->
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <!-- Socket.io JS -->
+    <script defer src="https://cdn.socket.io/4.1.2/socket.io.min.js" integrity="sha384-toS6mmwu70G0fw54EGlWWeA4z3dyJ+dlXBtSURSKN4vyRFOcxd3Bzjj/AoOwY+Rg" crossorigin="anonymous"></script>
+    <!-- Custom JS -->
+    <script defer src="/js/utilities.js"></script>
+    <script defer src="/js/room.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand pb-2" href="/">Watch2Gether Clone</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar__content" aria-controls="navbar__content" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar__content">
+                <form id="search__form" class="d-flex mx-auto search__container">
+                    <input class="form-control me-2" type="text" id="search__input" placeholder="Youtube Video Link" title="Add Youtube video link here" aria-label="Add Youtube video link here" autocomplete="off" required>
+                    <button class="btn btn-primary text-nowrap" type="submit" id="search__button" aria-label="Click here to add video to playlist" tabindex="0">Add</button>
+                    
+                    <span class="btn btn-danger pe-none" id="search__limit">Max. Playlist Length</span>
+                </form>
+                <ul class="navbar-nav mb-lg-0 ms-auto">
+                    <li class="nav-item">
+                        <div class="input-group link__container">
+                            <input type="text" class="form-control" id="link__input" title="Copy this link to invite friends to this room" aria-label="Copy this link to invite friends to this room" readonly>
+                            <span class="input-group-text btn btn-primary" id="link__copy" aria-label="Click here to copy room link" tabindex="0">Copy</span>
+                        </div>
+                        
+                        <span class="btn btn-danger pe-none" id="link__limit">Max. Users</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="main__container">
+            <div class="main__left">
+                <div class="main__video">
+                    <div class="plyr__video-embed" id="player" aria-label="Youtube Video">
+                        <iframe width="600" height="400" 
+                            src="https://www.youtube.com/embed/bTqVqk7FSmY?origin=<%= domain %>&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
+                            allowfullscreen
+                            allowtransparency
+                            allow="autoplay"
+                        ></iframe>
+                    </div>
+                </div>
+
+                <div class="main__users" id="main__users" aria-label="Users"></div>
+            </div>
+            <div class="main__right">
+                <div class="main__chat">
+                    <section class="chatbox">
+                        <section class="chat-window" id="chat__container" aria-label="Chat">
+                            <h3 class='mt-4 text-center text-white' id="chat__empty-msg">Chat is empty.</h3>
+                        </section>
+                        <form class="chat-input" id="chat__form">
+                            <input type="text" placeholder="Type a message" id="chat__input" aria-label="Enter a message here to chat in your room" maxlength="255" autocomplete="off" />
+                            <button class="btn btn-primary" type="submit" id="chat__button" aria-label="Click here to send message" tabindex="0">
+                                <i class="bi bi-arrow-return-right"></i>
+                            </button>
+                        </form>
+                    </section>
+                </div>
+
+                <div class="main__playlist">
+                    <ul id="playlist__container" aria-label="Playlist">
+                        <li class="li__no-style">
+                            <h3 class='mt-4 text-center' id="playlist__empty-message">Playlist is empty.</h3>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="credits__main credits__icon" title="Github Repository" aria-label="Github Repository Link">
+        <i class="bi bi-x" title="Close" id="credits__close"></i>
+        <a href="https://github.com/0xBitBuster" target="_blank" rel="noopener"></a>
+        <i class="bi bi-github"></i>
+    </div>
+
+    <span id="DOMAIN" hidden><%= domain %></span>
+    <span id="ROOM_ID" hidden><%= roomId %></span>
+</body>
+</html>

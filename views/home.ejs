@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="Watch2Gether Clone using Node.js, Express, Socket.io - Watch Youtube Videos Synchronized."> 
+        <meta name="author" content="Github: 0xBitBuster (saibot-tsch)"/>
+        <meta name="keywords" content="Watch2Gether, Clone, Express, Node.js, Socket.io, Youtube, Video, Sync">
+        <link rel="icon" type="image/png" href="/assets/icon.png">
+        <title>Watch2Gether Clone</title>
+
+        <!-- Bootstap 5 CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous" />
+        
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/cover.css" />
+        
+        <!-- Custom JS -->
+        <script src="/js/home.js" defer></script>
+    </head>
+    <body class="d-flex h-100 text-center text-white bg-dark">
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+            <main class="px-3 mt-auto">
+                <h1>Watch2Gether Clone</h1>
+                
+                <p class="lead mb-4">
+                    Simple Watch2Gether clone using Node.js and Socket.io
+                </p>
+
+                <p class="lead">
+                    <form action="/create-room" method="GET" class="mb-2">
+                        <button type="submit" class="btn btn-lg btn-secondary fw-bold border-white bg-white hover">
+                            Create a room
+                        </button>
+                    </form>
+                </p>
+
+                <p class="lead mb-4 text-danger d-none" id="error">
+                    <strong><u id="error__text">Unexpected error.</u></strong>
+                </p>
+            </main>
+
+            <%- include('partials/footer.ejs') %>
+        </div>
+    </body>
+</html>
